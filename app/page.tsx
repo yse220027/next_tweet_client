@@ -1,5 +1,7 @@
+"use client"
 
 export default function Home() {
+  console.log('Home!!!!')
   return (
     <div>
       <textarea className="resize-none w-full h-24 border rounded-md p-2"></textarea>
