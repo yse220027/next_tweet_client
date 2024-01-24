@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { registUser } from "@/app/services/UserService";
 import { useRouter } from "next/navigation";
+import ClickButton from "@/app/components/ClickButton";
 
 const RegistPage = () => {
     const router = useRouter();
@@ -27,6 +28,8 @@ const RegistPage = () => {
         }
     }
 
+    const isDisable = () => !(name && email && password);
+
     return (
         <div className="mx-auto w-1/3">
             <h1 className="flex text-2xl justify-center font-bold">
@@ -41,13 +44,11 @@ const RegistPage = () => {
             </div>
 
             <div>
-                <button className="
-                w-full bg-black
-                text-white hover:bg-gray-800
-                py-2 px-4 my-3
-                rounded-lg" onClick={regist}>
-                    Sign up
-                </button>
+                <ClickButton
+                    label="Sign up"
+                    onClick={regist}
+                    disabled={isDisable()}
+                />
 
                 <Link
                     href="/auth/login"
