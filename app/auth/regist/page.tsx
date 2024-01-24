@@ -4,25 +4,26 @@ import { FaUser } from "react-icons/fa";
 import Input from "@/app/components/Input";
 import Link from "next/link";
 import { useState } from "react";
+import { registUser } from "@/app/services/UserService";
+import { useRouter } from "next/navigation";
 
 const RegistPage = () => {
-    const [name, setName] = useState<string>();
-    const [email, setEmail] = useState<string>();
-    const [password, setPassword] = useState<string>();
+    const router = useRouter();
+
+    const [name, setName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     const regist = async () => {
-        const url = "http://localhost:8000/api/regist/store";
         console.log(name, email, password)
-
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password }),
-            });
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result);
+        // APIにデータ送信（ユーザ登録）
+        const result = await registUser({ name, email, password });
+        if (result.error) {
+            console.log(result.error)
+            // エラー表示
+        } else {
+            // トップページにリダイレクト
+            router.replace('/')
         }
     }
 
