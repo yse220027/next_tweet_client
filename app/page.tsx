@@ -22,8 +22,8 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const authUser = await getUser(token);
-      authUser.accessToken = token;
       if (authUser?.id > 0) {
+        authUser.accessToken = token;
         console.log(authUser)
         setUser(authUser);
       } else {
