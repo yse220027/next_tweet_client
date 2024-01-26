@@ -18,3 +18,25 @@ export const getTweets = async (accessToken: string) => {
         return await response.json();
     }
 }
+
+// 投稿一覧データ取得
+export const postTweet = async (user: User, message:string) => {
+    if (!user.accessToken || !user.id || !message) return;
+
+    // Development URL: http://localhost:8000/api/tweet/add
+    const url = LARAVEL_API_URL + "tweet/add"
+    // APIサーバにアクセス
+    //User ID
+    const user_id = user.id;
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${user.accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message, user_id})
+    });
+    if (response.ok) {
+        return await response.json();
+    }
+}

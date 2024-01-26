@@ -1,5 +1,6 @@
 "use client"
 
+import ClickButton from "@/app/components/ClickButton";
 import Input from "@/app/components/Input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -31,6 +32,8 @@ const LoginPage = () => {
         }
     }
 
+    const isDisable = () => !(email && password);
+
     return (
         <div className="mx-auto w-1/3">
             <h1 className="flex text-2xl justify-center font-bold">
@@ -44,13 +47,12 @@ const LoginPage = () => {
             </div>
 
             <div>
-                <button className="
-                    w-full bg-black
-                    text-white hover:bg-gray-800
-                    py-2 px-4 my-3
-                    rounded-lg" onClick={auth}>
-                    Sign in
-                </button>
+            <ClickButton
+                    label="Sign up"
+                    onClick={auth}
+                    disabled={isDisable()}
+                />
+
 
                 <Link
                     href="/auth/regist"

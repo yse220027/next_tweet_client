@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { User, testUser } from "./models/User";
-import { Tweet } from "./models/Tweet";
-import { getTweets } from "./services/TweetService";
+import { Tweet, initialTweet } from "./models/Tweet";
+import { getTweets, postTweet } from "./services/TweetService";
 import TweetForm from "./components/tweet/TweetForm";
 import TweetList from "./components/tweet/TweetList";
 
@@ -11,6 +11,7 @@ export default function Home() {
   //テストユーザの取得
   const [user] = useState<User>(testUser);
   const [tweets, setTweets] = useState<Tweet[]>([]);
+  const [tweet, setTweet] = useState<Tweet>(initialTweet);
 
   useEffect(() => {
     (async () => {
@@ -24,12 +25,18 @@ export default function Home() {
     })();
   }, [user])
 
+  // Tweetの投稿処理
+  const onPostTweet = async (message: string) => {
+    const data = await postTweet(user, message);
+    setTweet(data);
+  }
+
   return (
     <div>
       {
         user?.id > 0 && (
           <>
-            <TweetForm />
+            <TweetForm onPostTweet={onPostTweet} />
             <TweetList tweets={tweets} />
           </>
         )
