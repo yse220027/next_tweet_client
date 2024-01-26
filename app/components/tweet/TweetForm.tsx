@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ClickButton from "../ClickButton";
-import { Tweet } from "@/app/models/Tweet";
 
 interface TweetFormProps {
     onPostTweet: (message: string) => void;
@@ -18,6 +17,7 @@ const TweetForm = ({onPostTweet}:TweetFormProps) => {
     // Tweet投稿のイベントハンドラ
     const onPost = () => {
         onPostTweet(message);
+        setMessage("");
     }
 
     return (

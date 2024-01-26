@@ -2,33 +2,22 @@
 
 import ClickButton from "@/app/components/ClickButton";
 import Input from "@/app/components/Input";
+import { SignIn } from "@/app/services/UserService";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 
 const LoginPage = () => {
-    const [email, setEmail] = useState<string>();
-    const [password, setPassword] = useState<string>();
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const router = useRouter();
 
     const auth = async () => {
-        const url = "http://localhost:8000/api/auth";
-        console.log(email, password)
-
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result.access_token);
-            if (result.access_token) {
-                // redirect top page
-                router.push('/');
-            }
+        const result = await SignIn({ email, password });
+        if (result.access_token) {
+            // redirect top page
+            router.push('/');
         }
     }
 
@@ -47,8 +36,8 @@ const LoginPage = () => {
             </div>
 
             <div>
-            <ClickButton
-                    label="Sign up"
+                <ClickButton
+                    label="Sign in"
                     onClick={auth}
                     disabled={isDisable()}
                 />
